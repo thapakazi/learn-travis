@@ -1,4 +1,4 @@
-FROM ruby:2.6.2-slim
+FROM ruby:2.6.3-slim
 
 ARG RUBY_ENV=development
 ARG NODE_ENV=development
@@ -78,7 +78,7 @@ RUN if [ "$BUILD_ENV" = "production" ]; then \
     fi
 
 # Install JS dependencies
-COPY package.json yarn.lock ./
+COPY package.json ./
 RUN yarn install --network-timeout 100000
 
 # Copying the app files must be placed after the dependencies setup
