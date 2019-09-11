@@ -1,17 +1,15 @@
-sudo: required
-services:
-  - docker
-
+language: ruby
+rvm: 2.6.3
+cache:
+  - bundler
 env:
-  COMPOSE_VERSION: 1.24.1
-
-before_install:
- - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
- - chmod +x docker-compose
- - sudo mv docker-compose /usr/local/bin
+  - COMPOSE_VERSION: 1.24.1
+  - RAILS_MASTER_KEY=hellworld
+  - RACK_ENV=test
 
 script:
-  - docker-compose  -f docker-compose.test.yml up
+  - bundle install
+  - bundle exec rake spec
 
 # notifications:
 #   email:
