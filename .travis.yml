@@ -3,9 +3,7 @@ rvm: 2.6.3
 cache:
   - bundler
 env:
-  - COMPOSE_VERSION: 1.24.1
-  - RAILS_MASTER_KEY=hellworld
-  - RACK_ENV=test
+  - RAILS_MASTER_KEY=0855c71c381479974b4a80f9cd8969e4 RACK_ENV=test
 
 script:
   - bundle install
