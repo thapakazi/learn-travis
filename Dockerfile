@@ -29,13 +29,13 @@ RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends apt-transport-https curl gnupg
 
 # Add Yarn repository
-ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
-RUN apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg && \
-    echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+# ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
+# RUN apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg && \
+#     echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 
-# Add the PPA (personal package archive) maintained by NodeSource
-# This will have more up-to-date versions of Node.js than the official Debian repositories
-RUN curl -sL https://deb.nodesource.com/setup_"$NODE_VERSION".x | bash -
+# # Add the PPA (personal package archive) maintained by NodeSource
+# # This will have more up-to-date versions of Node.js than the official Debian repositories
+# RUN curl -sL https://deb.nodesource.com/setup_"$NODE_VERSION".x | bash -
 
 # Install general required core packages, Node JS related packages and Chrome (testing)
 RUN apt-get update -qq && \
@@ -45,18 +45,18 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists/*
 
 # Set up the Chrome PPA and install Chrome Headless
-RUN if [ "$BUILD_ENV" = "test" ]; then \
-      wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-      echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list && \
-      apt-get update -qq && \
-      apt-get install -y --no-install-recommends google-chrome-stable && \
-      rm /etc/apt/sources.list.d/google-chrome.list && \
-      apt-get clean && \
-      rm -rf /var/lib/apt/lists/* ; \
-    fi
+# RUN if [ "$BUILD_ENV" = "test" ]; then \
+#       wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+#       echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list && \
+#       apt-get update -qq && \
+#       apt-get install -y --no-install-recommends google-chrome-stable && \
+#       rm /etc/apt/sources.list.d/google-chrome.list && \
+#       apt-get clean && \
+#       rm -rf /var/lib/apt/lists/* ; \
+#     fi
 
-RUN sed -i "s/^#\ \+\(en_US.UTF-8\)/\1/" /etc/locale.gen
-RUN locale-gen en_US.UTF-8
+# RUN sed -i "s/^#\ \+\(en_US.UTF-8\)/\1/" /etc/locale.gen
+# RUN locale-gen en_US.UTF-8
 
 RUN mkdir "$APP_HOME"
 # Replace by the following if the application uses Rails engines
@@ -78,8 +78,8 @@ RUN if [ "$BUILD_ENV" = "production" ]; then \
     fi
 
 # Install JS dependencies
-COPY package.json ./
-RUN yarn install --network-timeout 100000
+# COPY package.json ./
+# RUN yarn install --network-timeout 100000
 
 # Copying the app files must be placed after the dependencies setup
 # since the app files always change thus cannot be cached
