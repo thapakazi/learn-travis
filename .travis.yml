@@ -2,13 +2,23 @@ language: ruby
 rvm: 2.6.3
 cache:
   - bundler
+
+addons:
+  postgresql: 9.6
+
+before_script:
+  - psql -c 'create database db_name_test;' -U postgres
+
 env:
-  - RAILS_MASTER_KEY=0855c71c381479974b4a80f9cd8969e4 RACK_ENV=test
+  - RAILS_MASTER_KEY=0855c71c381479974b4a80f9cd8969e4 RACK_ENV=test DB_NAME=db_name
 
 script:
   - bundle install
+  - bundle exec rails db:migrate
   - bundle exec rake spec
 
+services:
+  - redis-server
 # notifications:
 #   email:
 #     recipients:
